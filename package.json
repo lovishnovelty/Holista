@@ -46,7 +46,7 @@
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
-    "react-native-modal": "^11.6.1",
+    "react-native-modal": "^13.0.1",
     "react-native-normalize": "^1.0.1",
     "react-native-pdf": "^6.7.1",
     "react-native-permissions": "^3.0.0",
