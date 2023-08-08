@@ -1,0 +1,1 @@
+export const UI_CHANGE_THEME = 'UI_CHANGE_THEME';
