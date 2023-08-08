@@ -62,10 +62,10 @@ function BottomTabNavigator(props: any) {
   }, [enabledPermission]);
 
   useEffect(() => {
-    if (state.activeChat.length)
+    if (state?.activeChat?.length)
       storeLocalData('activeChat', state.activeChat[0].conversationId);
     else removeLocalData('activeChat');
-  }, [state.activeChat]);
+  }, [state?.activeChat]);
 
   useEffect(() => {
     CometChatLogin();

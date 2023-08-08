@@ -94,22 +94,24 @@ const CallScreen = () => {
   });
 
   var callSettings = new CometChat.CallSettingsBuilder()
-    .setSessionID(state.sessionId)
+    .setSessionID(state?.sessionId)
     .enableDefaultLayout(false)
     .showEndCallButton(false)
     .showSwitchCameraButton(false)
     .showMuteAudioButton(false)
     .showPauseVideoButton(false)
-    .setIsAudioOnlyCall(state.isAudio)
+    .setIsAudioOnlyCall(state?.isAudio)
     .setCallEventListener(callListener)
     .build();
 
   return (
     <Modal
-      isVisible={state.callType && state.sessionId && state.call ? true : false}
+      isVisible={
+        state?.callType && state?.sessionId && state?.call ? true : false
+      }
       style={style.modalWrapper}>
       <SafeAreaView style={{flex: 1}}>
-        {state.callType && state.sessionId && state.call ? (
+        {state?.callType && state?.sessionId && state?.call ? (
           <View style={style.modalContent}>
             {state.callAccepted ? (
               <>
@@ -119,7 +121,8 @@ const CallScreen = () => {
                     <TouchableOpacity
                       style={style.callButton}
                       onPress={() => {
-                        let callController = CometChat.CallController.getInstance();
+                        let callController =
+                          CometChat.CallController.getInstance();
                         callController.pauseVideo(videoMode);
                         setVideoMode(!videoMode);
                       }}>
@@ -132,7 +135,8 @@ const CallScreen = () => {
                   <TouchableOpacity
                     style={style.callButton}
                     onPress={() => {
-                      let callController = CometChat.CallController.getInstance();
+                      let callController =
+                        CometChat.CallController.getInstance();
                       callController.muteAudio(!muteAudio);
                       setMuteAudio(!muteAudio);
                     }}>
@@ -141,11 +145,13 @@ const CallScreen = () => {
                       color="white"
                     />
                   </TouchableOpacity>
+
                   {!state.isAudio && (
                     <TouchableOpacity
                       style={style.callButton}
                       onPress={() => {
-                        let callController = CometChat.CallController.getInstance();
+                        let callController =
+                          CometChat.CallController.getInstance();
                         callController.switchCamera();
                       }}>
                       <Icon name="camera-party-mode" color="white" />
@@ -155,14 +161,14 @@ const CallScreen = () => {
                     style={[style.callButton, {backgroundColor: '#BD4E44'}]}
                     onPress={() => {
                       CometChat.endCall(state.sessionId).then(
-                        (call) => {
+                        call => {
                           endCall();
                           setMuteAudio(false);
                           setAudioMode(false);
                           setActiveChat(call);
                           setChatList(call);
                         },
-                        (error) => {
+                        error => {
                           console.log('error', error);
                         },
                       );
