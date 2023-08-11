@@ -270,6 +270,7 @@ function BottomTabNavigator(props: any) {
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({route}) => ({
+          headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
               <View
