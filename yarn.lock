@@ -7168,6 +7168,11 @@ react-native-normalize@^1.0.1:
   resolved "https://registry.yarnpkg.com/react-native-normalize/-/react-native-normalize-1.0.1.tgz#52de71d1b86dd357c6f40fd4ab84b10336f0f072"
   integrity sha512-QYs95xhARhlcWWcDC77r4nVfxa3pDSfIBx2gdYZ+DOcLhSdPzRHFivWbGu3mL01JcvE69pMK7BmbPCda28vXwA==
 
+react-native-pager-view@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.2.0.tgz#51380d93fbe47f6380dc71d613a787bf27a4ca37"
+  integrity sha512-pf9OnL/Tkr+5s4Gjmsn7xh91PtJLDa6qxYa/bmtUhd/+s4cQdWQ8DIFoOFghwZIHHHwVdWtoXkp6HtpjN+r20g==
+
 react-native-pdf@^6.7.1:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-6.7.1.tgz#198b8ec3e8f1025ceb43ddfc6bc5b422521c4411"
@@ -7269,10 +7274,12 @@ react-native-svg@^12.1.0:
     css-select "^5.1.0"
     css-tree "^1.1.3"
 
-react-native-tab-view@^2.15.2:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.16.0.tgz#cae72c7084394bd328fac5fefb86cd966df37a86"
-  integrity sha512-ac2DmT7+l13wzIFqtbfXn4wwfgtPoKzWjjZyrK1t+T8sdemuUvD4zIt+UImg03fu3s3VD8Wh/fBrIdcqQyZJWg==
+react-native-tab-view@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.5.2.tgz#2789b8af6148b16835869566bf13dc3b0e6c1b46"
+  integrity sha512-nE5WqjbeEPsWQx4mtz81QGVvgHRhujTNIIZiMCx3Bj6CBFDafbk7XZp9ocmtzXUQaZ4bhtVS43R4FIiR4LboJw==
+  dependencies:
+    use-latest-callback "^0.1.5"
 
 react-native-textarea@^1.0.4:
   version "1.0.4"

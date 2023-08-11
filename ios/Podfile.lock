@@ -441,6 +441,8 @@ PODS:
     - React
   - react-native-blob-util (0.19.0):
     - React-Core
+  - react-native-pager-view (6.2.0):
+    - React-Core
   - react-native-pdf (6.7.1):
     - React-Core
   - react-native-progress-bar-android (1.0.5):
@@ -627,7 +629,7 @@ PODS:
     - React-Core
   - RNSVG (12.5.1):
     - React-Core
-  - RNVectorIcons (8.1.0):
+  - RNVectorIcons (10.0.0):
     - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
@@ -684,6 +686,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-biometrics (from `../node_modules/react-native-biometrics`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - "react-native-progress-bar-android (from `../node_modules/@react-native-community/progress-bar-android`)"
   - "react-native-progress-view (from `../node_modules/@react-native-community/progress-view`)"
@@ -804,6 +807,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-biometrics"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
   react-native-pdf:
     :path: "../node_modules/react-native-pdf"
   react-native-progress-bar-android:
@@ -933,6 +938,7 @@ SPEC CHECKSUMS:
   React-logger: c5b527272d5f22eaa09bb3c3a690fee8f237ae95
   react-native-biometrics: 4aec6978534944b5f830b9c3489b721c906ea70b
   react-native-blob-util: 2b6627b288e3bd9874704ea9a153f0a179e4f3f5
+  react-native-pager-view: 0ccb8bf60e2ebd38b1f3669fa3650ecce81db2df
   react-native-pdf: 7c0e91ada997bac8bac3bb5bea5b6b81f5a3caae
   react-native-progress-bar-android: 092e6a794f158642692f25c8839d9aa8eb779afb
   react-native-progress-view: ebf261a1919bfa385db03a3c423289d17f4b87ed
@@ -971,7 +977,7 @@ SPEC CHECKSUMS:
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNSound: 6c156f925295bdc83e8e422e7d8b38d33bc71852
   RNSVG: d7d7bc8229af3842c9cfc3a723c815a52cdd1105
-  RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
+  RNVectorIcons: 8b5bb0fa61d54cd2020af4f24a51841ce365c7e9
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 8796b55dba14d7004f980b54bcc9833ee45b28ce
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
