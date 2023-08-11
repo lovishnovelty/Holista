@@ -37,7 +37,7 @@ import {AuthContext} from '../../context';
 
 let biometricSetup: any = null;
 const HomeScreen = () => {
-  const flag: any = useSelector<any>((state) => state.flag);
+  const flag: any = useSelector<any>(state => state.flag);
   const {state, dispatch} = useContext(AuthContext);
 
   const [attribute, setAttribute] = useState<any>({
@@ -232,16 +232,16 @@ const HomeScreen = () => {
                 }}
               />
               <Icon
-                name={attribute.isVisible ? 'chevron-up' : 'chevron-down'}
+                name={attribute?.isVisible ? 'chevron-up' : 'chevron-down'}
                 color={color.arrow}
                 size={25}
               />
             </TouchableOpacity>
             <View style={[ds.currentTaskWrapper]}>
-              {attribute.isVisible && (
-                <ScrollView
-                  showsVerticalScrollIndicator={false}
-                  nestedScrollEnabled={true}
+              {attribute?.isVisible && (
+                <View
+                  // showsVerticalScrollIndicator={false}
+                  // nestedScrollEnabled={true}
                   style={[ds.current, {maxHeight: normalize(250)}]}>
                   {!loading ? (
                     task.length > 0 ? (
@@ -295,7 +295,7 @@ const HomeScreen = () => {
                   ) : (
                     <TaskPlaceHolder length={3} space={10} />
                   )}
-                </ScrollView>
+                </View>
               )}
             </View>
 

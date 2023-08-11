@@ -30,7 +30,8 @@ const Register = () => {
 
   useEffect(() => {
     const url = '/api/member-info/enrollments';
-    doRequest(url);
+    const res = doRequest(url);
+    console.log(res, '-----/api/member-info/enrollments-----');
   }, []);
 
   const onChange = (val: any) => {

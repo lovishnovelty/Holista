@@ -31,6 +31,7 @@ import {
 import {color, commonStyle, app_theme} from '../assets';
 import House from '../assets/images/svg/house';
 import {Home} from '../screens';
+import {loginSchema} from '../utils/validation';
 
 const Tab = createBottomTabNavigator();
 
@@ -200,15 +201,15 @@ function BottomTabNavigator(props: any) {
         setChatList(incomingCall);
         if (!state.callRingInterval) startSound();
       },
-      (cancelledCall) => {
+      cancelledCall => {
         setActiveChat(cancelledCall);
         setChatList(cancelledCall);
         endCall();
       },
-      (acceptCall) => {
+      acceptCall => {
         setCallAccepted(true);
       },
-      (rejectCall) => {
+      rejectCall => {
         setActiveChat(rejectCall);
         setChatList(rejectCall);
         endCall();
@@ -237,6 +238,8 @@ function BottomTabNavigator(props: any) {
   };
 
   useEffect(() => {
+    console.log('bottomtab');
+
     checkUpdate();
   }, []);
 
@@ -244,7 +247,7 @@ function BottomTabNavigator(props: any) {
     try {
       const version = await checkVersion();
       console.log('version', version);
-      
+
       if (version.needsUpdate) {
         Alert.alert(
           'New Update Available',

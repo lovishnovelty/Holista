@@ -22,6 +22,7 @@ const Document = ({
   const docLoadingIndex = useSelector(
     (state: any) => state.data.docLoadingIndex,
   );
+  console.log(title, 'title');
 
   return (
     <TouchableOpacity
@@ -42,15 +43,15 @@ const Document = ({
         />
       </View>
       <View style={documentStyle.icon}>
-        {index === docLoadingIndex ? (
+        {/* {index === docLoadingIndex ? (
           <ActivityIndicator color="#000" size={normalize(30)} />
-        ) : (
-          <Icon
-            name={'file-eye-outline'}
-            color={app_theme.primary_color}
-            size={normalize(25)}
-          />
-        )}
+        ) : ( */}
+        <Icon
+          name={'file-eye-outline'}
+          color={app_theme.primary_color}
+          size={normalize(25)}
+        />
+        {/* )} */}
       </View>
     </TouchableOpacity>
   );

@@ -11,17 +11,17 @@ const Documents = ({
   loading: boolean;
   documents: any;
 }) => {
+  console.log(documents, 'doc', loading);
+
   return (
     <ScrollView
       style={documentStyle.documentsContainer}
       contentContainerStyle={documents && documentStyle.center}
       showsVerticalScrollIndicator={false}>
-      {!documents ? (
-        <InfoPlaceHolder type="document" />
-      ) : documents.length === 0 ? (
-        <NoData title="documents" />
+      {!documents?.length ? (
+        <NoData title="documents" icon={''} />
       ) : (
-        documents.map((item, index) => (
+        documents?.map((item: any, index) => (
           <Document
             key={index}
             type={
