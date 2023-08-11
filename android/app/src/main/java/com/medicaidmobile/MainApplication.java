@@ -1,4 +1,4 @@
-package com.medicaidmobile;
+package com.novelty.medicaid;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
