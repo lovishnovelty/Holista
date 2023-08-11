@@ -10,12 +10,9 @@ const useFetch = () => {
   });
 
   const doRequest = async (path: string) => {
-    console.log(path, 'path');
-
     try {
       setData({loading: true, result: null, error: null});
       const result = await api.get(path);
-      console.log(result.data.data, 'info');
 
       setData({loading: false, result: result.data.data, error: null});
       return result.data.data;

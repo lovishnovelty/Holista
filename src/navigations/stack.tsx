@@ -85,7 +85,7 @@ const stack = () => {
           <Stack.Screen
             name="Confirmation"
             component={screen.Confirmation}
-            options={{gestureEnabled: false}}
+            options={{gestureEnabled: false, headerShown: false}}
           />
         </>
       ) : (
@@ -93,34 +93,43 @@ const stack = () => {
           <Stack.Screen
             name="Main"
             component={BottomTabNavigator}
-            options={{gestureEnabled: false}}
+            options={{gestureEnabled: false, headerShown: false}}
           />
           <Stack.Screen name="Profile" component={screen.Profile} />
           <Stack.Screen
             name="Task"
             component={screen.Task}
-            options={{gestureEnabled: false}}
+            options={{
+              gestureEnabled: false,
+              headerShown: false,
+            }}
           />
           <Stack.Screen name="message" component={screen.Message} />
           <Stack.Screen
             name="Questions"
             component={screen.Question}
-            options={{gestureEnabled: false}}
+            options={{
+              gestureEnabled: false,
+              headerShown: false,
+            }}
           />
           <Stack.Screen
             name="Questionnaire"
             component={screen.Questionnaire}
-            options={{gestureEnabled: false}}
+            options={{
+              gestureEnabled: false,
+              headerShown: false,
+            }}
           />
           <Stack.Screen
             name="QuestionnaireQuestion"
             component={screen.QuestionnaireQuestion}
-            options={{gestureEnabled: false}}
+            options={{gestureEnabled: false, headerShown: false}}
           />
           <Stack.Screen
             name="MessagePage"
             component={screen.MessagePage}
-            options={{gestureEnabled: false}}
+            options={{gestureEnabled: false, headerShown: false}}
           />
         </>
       )}
