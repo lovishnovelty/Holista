@@ -11,8 +11,6 @@ const Documents = ({
   loading: boolean;
   documents: any;
 }) => {
-  console.log(documents, 'doc', loading);
-
   return (
     <ScrollView
       style={documentStyle.documentsContainer}

@@ -1,17 +1,19 @@
 import {useDispatch, useSelector} from 'react-redux';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
+  Icon,
   NavHeader,
   ProfilePlaceHolder,
   RegularText,
   Wrapper,
 } from '../../common/ui';
-import {profileStyle} from '../../assets';
-import {ScrollView} from 'react-native';
+import {color, dashboardStyle, profileStyle} from '../../assets';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import ListItem from './listItem';
 import {formatPhoneNumber} from '../../utils/idcard';
-import {removeLocalData, removeToken} from '../../utils';
+import {normalize, removeLocalData, removeToken} from '../../utils';
 import {api} from '../../api/api';
+import {AuthContext} from '../../context';
 
 const Profile = () => {
   const [state, setState] = useState<any>({
@@ -19,6 +21,7 @@ const Profile = () => {
     loaded: false,
   });
   const user = useSelector((state: any) => state.auth.userData);
+  const {dispatch: authDispatch} = useContext(AuthContext);
 
   const dispatch = useDispatch();
 
@@ -29,6 +32,7 @@ const Profile = () => {
   const logout = () => {
     removeToken();
     removeLocalData('user');
+    removeLocalData('isDisclaimerViewed');
     removeLocalData('telemedicineLink');
     dispatch({type: 'SIGN_OUT'});
     dispatch({type: 'CLEAR_DATA'});
@@ -38,6 +42,8 @@ const Profile = () => {
     try {
       const url = `/api/purchasers/${user.data.referenceCode}`;
       const {data} = await api.get(url);
+      console.log(data, 'progileee', state);
+
       setState({
         companyInfo: data.data,
         loaded: true,
@@ -57,6 +63,28 @@ const Profile = () => {
         <ScrollView
           style={profileStyle.align}
           showsVerticalScrollIndicator={false}>
+          <View style={dashboardStyle.disclamier}>
+            <Icon name="alert" color={color.white} />
+            <View style={{flex: 1, marginLeft: normalize(10)}}>
+              <RegularText
+                title="DISCLAIMER: This portal does not provide medical advice"
+                style={{textAlign: 'left', color: color.white}}
+              />
+            </View>
+            <TouchableOpacity
+              style={{flex: 0.4}}
+              onPress={() =>
+                authDispatch({
+                  type: 'LOAD_DISCLAIMER',
+                  payload: true,
+                })
+              }>
+              <RegularText
+                title="Learn more"
+                style={dashboardStyle.learnMore}
+              />
+            </TouchableOpacity>
+          </View>
           <RegularText
             title="Personal Information"
             style={profileStyle.titleText}

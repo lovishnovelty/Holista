@@ -67,8 +67,6 @@ const Milestone = () => {
   });
 
   useEffect(() => {
-    console.log('milestone');
-
     const url = '/api/episodes/milestones';
     doRequest(url);
     inputRef.current.clear();

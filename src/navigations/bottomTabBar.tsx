@@ -238,8 +238,6 @@ function BottomTabNavigator(props: any) {
   };
 
   useEffect(() => {
-    console.log('bottomtab');
-
     checkUpdate();
   }, []);
 

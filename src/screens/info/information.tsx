@@ -37,7 +37,6 @@ const Information = () => {
     const ress = doRequest(
       '/api/documents?page=1&limit=200&sortType=desc&sortBy=id',
     );
-    console.log(ress, 'resss');
 
     checkEmpty(infoData)
       ? doRequest('/api/documents?page=1&limit=200&sortType=desc&sortBy=id')

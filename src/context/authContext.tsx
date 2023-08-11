@@ -7,6 +7,7 @@ const AuthReducer = (prevState: any, action: any) => {
         ...prevState,
         disclaimer: action.payload,
       };
+
     case 'SET_DISCLAIMER':
       return {
         ...prevState,
@@ -21,12 +22,12 @@ const AuthReducer = (prevState: any, action: any) => {
   }
 };
 
-const AuthContext = React.createContext();
-
 const initialState = {
   disclaimer: false,
   biometric: false,
 };
+const AuthContext = React.createContext(initialState);
+
 const useAuth = () => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 

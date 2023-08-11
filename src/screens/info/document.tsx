@@ -22,7 +22,6 @@ const Document = ({
   const docLoadingIndex = useSelector(
     (state: any) => state.data.docLoadingIndex,
   );
-  console.log(title, 'title');
 
   return (
     <TouchableOpacity

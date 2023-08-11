@@ -40,6 +40,7 @@ const HomeScreen = () => {
   const flag: any = useSelector<any>(state => state.flag);
   const {state, dispatch} = useContext(AuthContext);
 
+  const [showDisclaimer, setShowDisclaimer] = useState<boolean>(false);
   const [attribute, setAttribute] = useState<any>({
     isVisible: true,
   });
@@ -65,6 +66,19 @@ const HomeScreen = () => {
       setTask(tasks);
     }
   };
+  useEffect(() => {
+    const checkDisclaimed = async () => {
+      const isviewedd = await getLocalData('isDisclaimerViewed');
+      if (!isviewedd) {
+        dispatch({
+          type: 'LOAD_DISCLAIMER',
+          payload: true,
+        });
+        setShowDisclaimer(true);
+      }
+    };
+    checkDisclaimed();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -72,7 +86,6 @@ const HomeScreen = () => {
       const isDeviceSupportBiometric = async () => {
         try {
           const result: any = await isBiometricAvailable();
-          // console.log(result, 'isBiometricAvailable');
           if (result) {
             if (!state.disclaimer && !biometricSetup) {
               dispatch({
@@ -177,13 +190,19 @@ const HomeScreen = () => {
   };
 
   const onPress = async (val: boolean) => {
-    if (val) await storeLocalData('disclaimer', 'true');
+    if (val) {
+      await storeLocalData('disclaimer', 'true');
+    }
     const result = await isBiometricAvailable();
     const localBiometricData = await getLocalData('biometricSetup');
     const biometricSetup = result && !localBiometricData;
     dispatch({
       type: 'SET_DISCLAIMER',
-      payload: {disclaimer: false, biometric: biometricSetup || false},
+      payload: {
+        disclaimer: false,
+        biometric: biometricSetup || false,
+        isDisclaimerViewed: false,
+      },
     });
   };
 
@@ -200,7 +219,7 @@ const HomeScreen = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={ds.container}>
           <View style={ds.body}>
-            <View style={ds.disclamier}>
+            {/* <View style={ds.disclamier}>
               <Icon name="alert" color={color.white} />
               <View style={{flex: 1, marginLeft: normalize(10)}}>
                 <RegularText
@@ -218,7 +237,7 @@ const HomeScreen = () => {
                 }>
                 <RegularText title="Learn more" style={ds.learnMore} />
               </TouchableOpacity>
-            </View>
+            </View> */}
             <TouchableOpacity
               style={ds.task}
               onPress={() => {
@@ -239,9 +258,9 @@ const HomeScreen = () => {
             </TouchableOpacity>
             <View style={[ds.currentTaskWrapper]}>
               {attribute?.isVisible && (
-                <View
-                  // showsVerticalScrollIndicator={false}
-                  // nestedScrollEnabled={true}
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  nestedScrollEnabled={true}
                   style={[ds.current, {maxHeight: normalize(250)}]}>
                   {!loading ? (
                     task.length > 0 ? (
@@ -295,7 +314,7 @@ const HomeScreen = () => {
                   ) : (
                     <TaskPlaceHolder length={3} space={10} />
                   )}
-                </View>
+                </ScrollView>
               )}
             </View>
 
@@ -329,7 +348,7 @@ const HomeScreen = () => {
           </View>
         </View>
       </ScrollView>
-      {state.disclaimer && (
+      {showDisclaimer && (
         <Desclamier visible={state.disclaimer} onPress={onPress} />
       )}
       <Modal
