@@ -12,6 +12,7 @@ import {CallProvider} from '../context';
 import {AuthContext, useAuth} from '../context';
 
 const AppRoute = () => {
+  const {state, dispatch} = useAuth();
   const deepLinking = {
     prefixes: [
       'https://demo-api-holista.noveltytechnology.com/api/mobile-association',
@@ -28,19 +29,21 @@ const AppRoute = () => {
       },
     },
   };
-  const {state, dispatch} = useAuth();
+
   return (
     <Provider store={store}>
-      <AuthContext.Provider value={{state, dispatch}}>
-        <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer ref={navigationRef} linking={deepLinking}>
-            <SafeAreaView style={gs.safeAreaView}>
-              <DocumentViewer />
-              <Stack />
-            </SafeAreaView>
-          </NavigationContainer>
-        </PersistGate>
-      </AuthContext.Provider>
+      <CallProvider>
+        <AuthContext.Provider value={{state, dispatch}}>
+          <PersistGate loading={null} persistor={persistor}>
+            <NavigationContainer ref={navigationRef} linking={deepLinking}>
+              <SafeAreaView style={gs.safeAreaView}>
+                <DocumentViewer />
+                <Stack />
+              </SafeAreaView>
+            </NavigationContainer>
+          </PersistGate>
+        </AuthContext.Provider>
+      </CallProvider>
     </Provider>
   );
 };
