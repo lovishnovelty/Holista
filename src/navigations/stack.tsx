@@ -27,9 +27,9 @@ const stack = () => {
   ];
 
   useEffect(() => {
-    Linking.addEventListener('url', handleOpenURL);
+    Linking?.addEventListener('url', handleOpenURL);
     return () => {
-      Linking.removeEventListener('url', handleOpenURL);
+      Linking?.removeEventListener('url', handleOpenURL);
     };
   }, []);
 

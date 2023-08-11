@@ -73,9 +73,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.medicaidmobile"
+    namespace "com.novelty.medicaid"
     defaultConfig {
-        applicationId "com.medicaidmobile"
+        applicationId "com.novelty.medicaid"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -121,3 +121,5 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
