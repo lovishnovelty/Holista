@@ -17,13 +17,22 @@ const DocumentViewer = () => {
 
   useEffect(() => {
     if (uri !== '') {
+      console.log(uri, 'uroiiii');
+
       const extension = uri.split('.')[uri.split('.').length - 1];
       const localFile = `${RNFS.DocumentDirectoryPath}/temporaryfile.${extension}`;
       const options = {
         fromUrl: uri,
         toFile: localFile,
+        mime: 'application/octet-stream',
+        progress: data => {
+          // You can use this callback to track the download progress
+          const progress = data.bytesWritten / data.contentLength;
+          console.log(`Download Progress: ${progress}`);
+        },
       };
       if (extension === 'pdf') {
+        console.log('log');
         setVisible(true);
         hideLoader();
         setUri(uri);
@@ -38,15 +47,15 @@ const DocumentViewer = () => {
       ) {
         RNFS.downloadFile(options).promise.then(async () => {
           FileViewer.open(localFile)
-            .then((success) => {
+            .then(success => {
               setDocIndex(-1);
             })
-            .catch((error) => {
+            .catch(async error => {
               const errorMsg =
                 String(error) === 'Error: No app associated with this mime type'
                   ? 'No app associated with this file type.'
                   : 'Network Error';
-
+              await Linking.openURL(uri);
               setDocIndex(-1);
               snackBarBottom(errorMsg, 'error', true);
             });

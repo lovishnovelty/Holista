@@ -1,4 +1,3 @@
-
 const initialState = {
   idcard: {},
   info: {},
@@ -19,6 +18,8 @@ const dataReducer = (state: any = initialState, action: any) => {
       return {idcard: {}, info: {}};
 
     case 'SET_PDF':
+      console.log(action.payload.pdf, 'action.payload.pdf');
+
       return {
         ...state,
         pdf: action.payload.pdf,

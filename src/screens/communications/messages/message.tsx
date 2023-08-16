@@ -80,13 +80,14 @@ const MessageScreen = () => {
       setIsAudio(isAudio ? true : false);
       initiateCall(receiverID, isAudio ? 'AUDIO' : 'VIDEO').then(
         (outGoingCall: CometChat.Call) => {
+          console.log(outGoingCall, 'outGoingCall');
           setSessionId(outGoingCall.getSessionId());
           setCallType('outgoing');
           setCall(outGoingCall);
           setActiveChat(outGoingCall);
           if (!state.callRingInterval) startSound('outgoing');
         },
-        (error) => {
+        error => {
           console.log('Call initialization failed with exception:', error);
         },
       );
@@ -333,7 +334,7 @@ const MessageScreen = () => {
           )}
           {!loading && state.activeChat?.length ? (
             <ScrollView
-              ref={(ref) => {
+              ref={ref => {
                 setScrollView(ref);
               }}
               contentContainerStyle={{

@@ -48,9 +48,17 @@ const Login = () => {
   };
 
   useEffect(() => {
+    const checkDisclaimer = async () => {
+      const isDisclaimerViewed = await getLocalData('isDisclaimerViewed');
+      console.log(isDisclaimerViewed, 'isDisclaimerViewed');
+    };
+    checkDisclaimer();
+  }, []);
+  useEffect(() => {
     async function isBiometricSetup() {
       try {
         const biometricSetup: any = await getLocalData('biometricSetup');
+
         if (biometricSetup) {
           let biometric: any = await isBiometricAvailable();
           setBiometricType(biometric);

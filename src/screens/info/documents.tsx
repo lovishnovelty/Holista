@@ -23,12 +23,12 @@ const Documents = ({
           <Document
             key={index}
             type={
-              item.documentPath.split('.')[
-                item.documentPath.split('.').length - 1
+              item?.documentPath.split('.')[
+                item?.documentPath?.split('.').length - 1
               ]
             }
-            title={item.name}
-            source={item.documentPath}
+            title={item?.name}
+            source={item?.documentPath}
             index={index}
           />
         ))

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {app_theme, documentStyle} from '../../assets';
 import {Icon, RegularText} from '../../common/ui';
 import normalize from 'react-native-normalize';

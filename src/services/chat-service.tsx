@@ -10,12 +10,12 @@ const sendMessage = () => {
     setLoading(true);
     try {
       CometChat.sendMessage(message).then(
-        (message) => {
+        message => {
           setSentMessage(message);
           setLoading(false);
           // Do something with message
         },
-        (error) => {
+        error => {
           console.log('Message sending failed with error:', error);
           // Handle any error
         },
@@ -44,11 +44,13 @@ const conversation = () => {
   const getList = () => {
     try {
       conversationsRequest.fetchNext().then(
-        (conversationList) => {
+        conversationList => {
+          console.log(conversationList, 'conversationList');
+
           setConversationList(conversationList);
           setLoading(false);
         },
-        (error) => {
+        error => {
           setLoading(false);
           console.log('Conversations list fetching failed with error:', error);
         },
@@ -70,6 +72,7 @@ const conversation = () => {
 const getMessagesByUid = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [messageList, setMessageList] = useState<any>([]);
+  console.log(messageList, 'mesageList');
 
   const getList = (uid: string) => {
     try {
@@ -80,11 +83,11 @@ const getMessagesByUid = () => {
         .build();
 
       messagesRequest.fetchPrevious().then(
-        (messages) => {
+        messages => {
           setMessageList(messages);
           setLoading(false);
         },
-        (error) => {
+        error => {
           console.log('Message fetching failed with error:', error);
           setLoading(false);
         },
@@ -147,11 +150,11 @@ const rejectIncomingCall = (sessionId: string) => {
 
 const getConversationByMessage = (message: CometChat.TextMessage) => {
   CometChat.CometChatHelper.getConversationFromMessage(message).then(
-    (conversation) => {
+    conversation => {
       console.log('Conversation Object', conversation);
       return conversation;
     },
-    (error) => {
+    error => {
       console.log('Error while converting message object', error);
     },
   );

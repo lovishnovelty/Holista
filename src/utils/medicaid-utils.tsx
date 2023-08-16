@@ -182,13 +182,13 @@ export const checkMessage = async (
       return true;
     } else if (messageList[i].uid === message.uid) {
       messageList[i].text = message.text;
-    } else if (!messageList.some((item) => item.uid === message.uid)) {
+    } else if (!messageList.some(item => item.uid === message.uid)) {
       messageList.push(message);
     }
   }
   if (
     messageList.length === 0 &&
-    !messageList.some((item) => item.uid === message.uid)
+    !messageList.some(item => item.uid === message.uid)
   ) {
     messageList.push(message);
   }
@@ -198,9 +198,9 @@ export const checkMessage = async (
 export const getFileTypeIcon = (fileType: string) => {
   switch (fileType) {
     case 'pdf':
-      return 'file-pdf-outline';
+      return 'file-pdf-box';
     case 'txt':
-      return 'file-outline';
+      return 'file-document-outline';
     case 'jpg':
     case 'jpeg':
       return 'file-image-outline';

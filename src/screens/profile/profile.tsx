@@ -1,6 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux';
 import React, {useContext, useEffect, useState} from 'react';
 import {
+  Desclamier,
   Icon,
   NavHeader,
   ProfilePlaceHolder,
@@ -11,7 +12,12 @@ import {color, dashboardStyle, profileStyle} from '../../assets';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import ListItem from './listItem';
 import {formatPhoneNumber} from '../../utils/idcard';
-import {normalize, removeLocalData, removeToken} from '../../utils';
+import {
+  normalize,
+  removeLocalData,
+  removeToken,
+  storeLocalData,
+} from '../../utils';
 import {api} from '../../api/api';
 import {AuthContext} from '../../context';
 
@@ -21,7 +27,8 @@ const Profile = () => {
     loaded: false,
   });
   const user = useSelector((state: any) => state.auth.userData);
-  const {dispatch: authDispatch} = useContext(AuthContext);
+  const {state: authState, dispatch: authDispatch} = useContext(AuthContext);
+  console.log(authState, 'authState');
 
   const dispatch = useDispatch();
 
@@ -32,7 +39,6 @@ const Profile = () => {
   const logout = () => {
     removeToken();
     removeLocalData('user');
-    removeLocalData('isDisclaimerViewed');
     removeLocalData('telemedicineLink');
     dispatch({type: 'SIGN_OUT'});
     dispatch({type: 'CLEAR_DATA'});
@@ -50,7 +56,21 @@ const Profile = () => {
       });
     } catch (error) {}
   };
+  const onPress = async (val: boolean) => {
+    console.log(val, 'vallll');
 
+    // if (val) {
+    //   await storeLocalData('disclaimer', 'true');
+    // }
+    authDispatch({
+      type: 'SET_DISCLAIMER',
+      payload: {
+        disclaimer: false,
+        biometric: false,
+        isDisclaimerViewed: false,
+      },
+    });
+  };
   return (
     <Wrapper horizontalMargin={0}>
       <NavHeader
@@ -59,6 +79,9 @@ const Profile = () => {
         rightIconSize={25}
         rightIconPress={logout}
       />
+      {authState?.disclaimer && (
+        <Desclamier visible={authState?.disclaimer} onPress={onPress} />
+      )}
       {state.loaded ? (
         <ScrollView
           style={profileStyle.align}
@@ -106,7 +129,7 @@ const Profile = () => {
           />
           <ListItem icon="email" keyname="Email" value={user.data.email} />
           <ListItem
-            icon="cellphone-android"
+            icon="phone"
             keyname="Phone"
             value={formatPhoneNumber(user.data.phone)?.toString()}
           />
