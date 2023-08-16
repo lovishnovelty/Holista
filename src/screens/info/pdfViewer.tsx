@@ -42,6 +42,10 @@ const PdfViewer = ({
             </TouchableOpacity>
           )}
           <Pdf
+            trustAllCerts={false}
+            onError={error => {
+              console.log(error, 'errrrr');
+            }}
             activityIndicator={<></>}
             source={{
               uri: uri,

@@ -8,6 +8,7 @@ import Documents from './documents';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkEmpty, normalize, seperateFiles} from '../../utils';
 import {InfoPlaceHolder} from '../../common/ui';
+import {loginSchema} from '../../utils/validation';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -20,7 +21,7 @@ const Information = () => {
   const infoData = useSelector((state: any) => state.data.info);
 
   const setData = (data: any) => {
-    const {links, documents} = seperateFiles(data);    
+    const {links, documents} = seperateFiles(data);
     setLinks(links);
     setdocuments(documents).then(() => setLoader(false));
   };
@@ -33,7 +34,13 @@ const Information = () => {
   }, [result]);
 
   useEffect(() => {
-    checkEmpty(infoData) ? doRequest('/api/documents?page=1&limit=200&sortType=desc&sortBy=id') : setData(infoData);
+    const ress = doRequest(
+      '/api/documents?page=1&limit=200&sortType=desc&sortBy=id',
+    );
+
+    checkEmpty(infoData)
+      ? doRequest('/api/documents?page=1&limit=200&sortType=desc&sortBy=id')
+      : setData(infoData);
   }, []);
 
   return (

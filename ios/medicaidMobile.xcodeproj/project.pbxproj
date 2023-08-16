@@ -210,7 +210,11 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+<<<<<<< HEAD
+				743A4F95E2CAA9848D29BF13 /* [CP-User] [RNFB] Core Configuration */,
+=======
 				7B9065CB796720EC022BF876 /* [CP-User] [RNFB] Core Configuration */,
+>>>>>>> 43bfad2041c0a0043c307ced39e243b9597616d1
 			);
 			buildRules = (
 			);
@@ -316,7 +320,11 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-medicaidMobile/Pods-medicaidMobile-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+<<<<<<< HEAD
+		743A4F95E2CAA9848D29BF13 /* [CP-User] [RNFB] Core Configuration */ = {
+=======
 		7B9065CB796720EC022BF876 /* [CP-User] [RNFB] Core Configuration */ = {
+>>>>>>> 43bfad2041c0a0043c307ced39e243b9597616d1
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

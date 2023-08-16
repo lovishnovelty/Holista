@@ -48,9 +48,17 @@ const Login = () => {
   };
 
   useEffect(() => {
+    const checkDisclaimer = async () => {
+      const isDisclaimerViewed = await getLocalData('isDisclaimerViewed');
+      console.log(isDisclaimerViewed, 'isDisclaimerViewed');
+    };
+    checkDisclaimer();
+  }, []);
+  useEffect(() => {
     async function isBiometricSetup() {
       try {
         const biometricSetup: any = await getLocalData('biometricSetup');
+
         if (biometricSetup) {
           let biometric: any = await isBiometricAvailable();
           setBiometricType(biometric);
@@ -88,6 +96,7 @@ const Login = () => {
       const getTokenUrl = `/api/user/firebase-tokens/${id}`;
       const url = '/api/user/firebase-token';
       const tokenList: any = await getRequest(getTokenUrl);
+      console.log(tokenList, '----tokenList----');
 
       if (tokenList?.tokens.includes(token)) {
         return;
@@ -97,12 +106,15 @@ const Login = () => {
           deviceId,
           token,
         };
+        console.log(body, '---body----');
+
         const authStatus = await messaging().requestPermission();
         const enabled =
           authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
           authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-        await patchRequest(url, body);
+        const res = await patchRequest(url, body);
+        console.log(res, '----/api/user/firebase-token-----');
       }
     } catch (error) {}
   };
@@ -119,10 +131,13 @@ const Login = () => {
         deviceId,
         deviceType: Platform.OS,
       };
+
       const biometricSetup = await getLocalData('biometricSetup');
       const res: any = await postRequest(url, body);
+
       await setToken(res.data.token, res.data.refreshToken);
       const userData: any = await getRequest(`/api/users/${+res.data.user.id}`);
+
       if (
         biometricSetup &&
         JSON.parse(biometricSetup).data.userSetting.userId !==
@@ -137,13 +152,15 @@ const Login = () => {
         'userCred',
         JSON.stringify({...body, id: res.data.user.id}),
       );
-      if (res.data.user.telemedicineLink)
+      if (res.data.user.telemedicineLink) {
         await storeLocalData(
           'telemedicineLink',
           res.data.user.telemedicineLink,
         );
-      if (userData.data.userSetting.disclaimerAck)
+      }
+      if (userData.data.userSetting.disclaimerAck) {
         await storeLocalData('disclaimer', 'true');
+      }
 
       dispatchAuth({
         type: 'LOAD_DISCLAIMER',
@@ -183,12 +200,12 @@ const Login = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={loginSchema}
-            onSubmit={(values) => onSubmit(values)}>
+            onSubmit={values => onSubmit(values)}>
             {({values, errors, touched, handleChange, submitForm}) => (
               <>
                 <Input
                   placeholder={'Email, Phone or Subscriber Number'}
-                  onChangeText={(text) => {
+                  onChangeText={text => {
                     handleChange('userName')(text);
                     error && setError(null);
                   }}
@@ -203,7 +220,7 @@ const Login = () => {
                   <Input
                     placeholder="**********"
                     secureTextEntry={togglePassword ? false : true}
-                    onChangeText={(text) => {
+                    onChangeText={text => {
                       handleChange('password')(text);
                       error && setError(null);
                     }}
@@ -227,10 +244,10 @@ const Login = () => {
                 <View style={ls.rememberMeSection}>
                   <TouchableOpacity
                     style={ls.rememberView}
-                    onPress={() => setIsChecked((prev) => !prev)}>
+                    onPress={() => setIsChecked(prev => !prev)}>
                     <CustomCheckBox
                       isSelected={isChecked}
-                      onValueChange={() => setIsChecked((prev) => !prev)}
+                      onValueChange={() => setIsChecked(prev => !prev)}
                     />
                     <RegularText
                       title="Remember Me"

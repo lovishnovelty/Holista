@@ -74,7 +74,7 @@ const Milestone = () => {
 
   useEffect(() => {
     if (result) {
-      setIds((previd) => ({...previd, episodeId: result?.episodes[0]?.id}));
+      setIds(previd => ({...previd, episodeId: result?.episodes[0]?.id}));
       const formattedData =
         result?.episodes[0]?.milestones &&
         formatResult(result?.episodes[0]?.milestones);
@@ -125,7 +125,7 @@ const Milestone = () => {
   const loadTask = async (id: number, isBack?: boolean) => {
     const url = `/api/episodes/milestones/${id}/tasks`;
     const response: any = await getRequest(url);
-    setIds((previd) => ({
+    setIds(previd => ({
       ...previd,
       milestoneId: id,
       topicId: response.data[0]?.id,
@@ -144,7 +144,7 @@ const Milestone = () => {
         ...data,
         tempData: [...data.tempData]
           .sort((a: any, b: any) => (a.sequence > b.sequence ? 1 : -1))
-          .filter((item) => {
+          .filter(item => {
             if (attribute.activeStatus == 'ALL') {
               return true;
             } else if (attribute.activeStatus == 'PRIMARY') {
@@ -327,7 +327,7 @@ const Milestone = () => {
       />
       <ScrollView
         style={ms.wrapper}
-        ref={(ref) => setRef(ref)}
+        ref={ref => setRef(ref)}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -394,7 +394,7 @@ const Milestone = () => {
                       <View
                         key={index}
                         style={{width: '100%'}}
-                        onLayout={(event) => {
+                        onLayout={event => {
                           const layout = event.nativeEvent.layout;
                           if (
                             !count &&

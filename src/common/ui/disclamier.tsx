@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import {ScrollView} from 'react-native-gesture-handler';
 import {desclamierStyle as ds} from '../../assets/styles/common/ui/desclamier.styles';
 import {putRequest} from '../../services/request';
-import {normalize} from '../../utils';
+import {normalize, storeLocalData} from '../../utils';
 import {Button} from './button';
 import {Icon} from './icon';
 import {RegularText} from './regularText';
@@ -24,12 +24,17 @@ const Desclamier = (props: any) => {
 
   const onSubmit = async () => {
     try {
+      await storeLocalData('isDisclaimerViewed', 'viewed');
+
       if (disclaimerAck && isAck) return props.onPress(false);
       setLoading(true);
       const url = `/api/users/${user.id}/settings`;
       await putRequest(url, {disclaimerAck: disclaimerAck});
       setLoading(false);
-      dispatch({type: 'SET_DISCLAIMER', payload: true});
+      dispatch({
+        type: 'SET_DISCLAIMER',
+        payload: true,
+      });
       props.onPress(true);
     } catch (error) {
       setLoading(false);

@@ -16,21 +16,19 @@ const Documents = ({
       style={documentStyle.documentsContainer}
       contentContainerStyle={documents && documentStyle.center}
       showsVerticalScrollIndicator={false}>
-      {!documents ? (
-        <InfoPlaceHolder type="document" />
-      ) : documents.length === 0 ? (
-        <NoData title="documents" />
+      {!documents?.length ? (
+        <NoData title="documents" icon={''} />
       ) : (
-        documents.map((item, index) => (
+        documents?.map((item: any, index) => (
           <Document
             key={index}
             type={
-              item.documentPath.split('.')[
-                item.documentPath.split('.').length - 1
+              item?.documentPath.split('.')[
+                item?.documentPath?.split('.').length - 1
               ]
             }
-            title={item.name}
-            source={item.documentPath}
+            title={item?.name}
+            source={item?.documentPath}
             index={index}
           />
         ))
