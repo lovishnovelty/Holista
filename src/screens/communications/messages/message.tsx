@@ -29,7 +29,7 @@ import {
   getFileTypeIcon,
   normalize,
   secondsToTime,
-  snackBarBottom,
+  showToast,
 } from '../../../utils';
 import {
   getMessagesByUid,
@@ -76,23 +76,32 @@ const MessageScreen = () => {
 
   const startCall = (isAudio?: boolean) => {
     const user = state.userList.find((x: any) => +x.uid === +receiverID);
+    console.log(isAudio, 'auido', user, 'receiverID', receiverID);
     if (user?.status === 'online') {
+      console.log('onile');
+
       setIsAudio(isAudio ? true : false);
       initiateCall(receiverID, isAudio ? 'AUDIO' : 'VIDEO').then(
-        (outGoingCall: CometChat.Call) => {
+        (outGoingCall: any) => {
           console.log(outGoingCall, 'outGoingCall');
           setSessionId(outGoingCall.getSessionId());
           setCallType('outgoing');
           setCall(outGoingCall);
           setActiveChat(outGoingCall);
-          if (!state.callRingInterval) startSound('outgoing');
+          if (!state.callRingInterval) {
+            startSound('outgoing');
+          }
         },
         error => {
           console.log('Call initialization failed with exception:', error);
         },
       );
-    } else
-      snackBarBottom(`${user?.name ?? 'User'} is not available`, 'error', true);
+    } else {
+      showToast({
+        type: 'error',
+        text1: `${user?.name ?? 'User'} is  not available`,
+      });
+    }
   };
 
   useEffect(() => {
@@ -308,14 +317,14 @@ const MessageScreen = () => {
     <SafeAreaView style={{marginHorizontal: 0}}>
       <NavHeader
         title={messageParams?.name ?? 'Unknown'}
-        rightIcon="video"
-        rightIconSize={30}
-        rightIconColor="#3C9584"
-        rightIconPress={() => startCall(false)}
-        secondRightIcon="phone"
-        secondRightIconSize={30}
-        secondRightIconColor="#3C9584"
-        secondRightIconPress={() => startCall(true)}
+        // rightIcon="video"
+        // rightIconSize={30}
+        // rightIconColor="#3C9584"
+        // rightIconPress={() => startCall(false)}
+        // secondRightIcon="phone"
+        // secondRightIconSize={30}
+        // secondRightIconColor="#3C9584"
+        // secondRightIconPress={() => startCall(true)}
         userStatus={
           state.userList.find((x: any) => +x.uid === +receiverID)?.status ??
           'offline'

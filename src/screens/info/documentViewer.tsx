@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {hideLoader, snackBarBottom} from '../../utils';
+import {hideLoader, showToast} from '../../utils';
 import PdfViewer from './pdfViewer';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
@@ -18,13 +18,21 @@ const DocumentViewer = () => {
   useEffect(() => {
     if (uri !== '') {
       console.log(uri, 'uroiiii');
+      const date = new Date();
 
+      const uniqueString = Math.floor(date.getTime() + date.getSeconds() / 2);
+      const directoryPath =
+        Platform.OS === 'android'
+          ? RNFS.DownloadDirectoryPath
+          : RNFS.DocumentDirectoryPath;
       const extension = uri.split('.')[uri.split('.').length - 1];
-      const localFile = `${RNFS.DocumentDirectoryPath}/temporaryfile.${extension}`;
+      const localFile = `${directoryPath}/${uri.replace(
+        /\.[^/.]+$/,
+        '',
+      )}-${uniqueString}.${extension}`;
       const options = {
-        fromUrl: uri,
+        fromUrl: encodeURI(uri),
         toFile: localFile,
-        mime: 'application/octet-stream',
         progress: data => {
           // You can use this callback to track the download progress
           const progress = data.bytesWritten / data.contentLength;
@@ -55,9 +63,11 @@ const DocumentViewer = () => {
                 String(error) === 'Error: No app associated with this mime type'
                   ? 'No app associated with this file type.'
                   : 'Network Error';
-              await Linking.openURL(uri);
               setDocIndex(-1);
-              snackBarBottom(errorMsg, 'error', true);
+              showToast({
+                type: 'error',
+                text1: errorMsg,
+              });
             });
           setUri('');
         });

@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {commonStyle, questionStyle, theme} from '../../assets';
 import {Button, GoBack, NavHeader, RegularText} from '../../common/ui';
-import {normalize, snackBarBottom, navigate} from '../../utils';
+import {normalize, showToast} from '../../utils';
 import {postRequest} from '../../services/request';
 
 const MessagePage = (props: any) => {
@@ -35,7 +35,10 @@ const MessagePage = (props: any) => {
     try {
       await postRequest('/api/episodes/task/status-update', body);
       setTimeout(() => {
-        snackBarBottom('Message updated successfully', 'success', true);
+        showToast({
+          type: 'success',
+          text1: 'Message updated successfully',
+        });
       }, 1000);
       getLatestMilestone();
     } catch (error) {

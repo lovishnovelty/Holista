@@ -12,7 +12,7 @@ import {
 } from '../../common/ui';
 import Textarea from 'react-native-textarea';
 import {postRequest} from '../../services/request';
-import {goBack, navigate, normalize, ROUTES, snackBarBottom} from '../../utils';
+import {goBack, navigate, normalize, ROUTES, showToast} from '../../utils';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -27,10 +27,15 @@ const QuestionnaireQuestion = (props: any) => {
   const [selected, setSelected] = useState(null);
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
-  const {loadTask, ids, question: ques, currentTask, itemData} =
-    props.question ?? props.route.params;
+  const {
+    loadTask,
+    ids,
+    question: ques,
+    currentTask,
+    itemData,
+  } = props.question ?? props.route.params;
   const initialQues = itemData?.filter(
-    (item) => item.questions?.id === ques.id ?? false,
+    item => item.questions?.id === ques.id ?? false,
   );
   useEffect(() => {
     dispatch({
@@ -70,13 +75,13 @@ const QuestionnaireQuestion = (props: any) => {
     question?.questionTypes?.code === 'TEXTFIELD'
       ? setType('input')
       : setType('choice');
-    question?.ansOpt?.map((item) => {
+    question?.ansOpt?.map(item => {
       if (item.answer?.length > 0) {
         setInputText(item.answer);
       } else {
         question?.questionTypes?.code === 'RADIO'
           ? setSelected(item.answerOptionId[0] ?? item.answerOptionId)
-          : setCheckedList((prev) => [
+          : setCheckedList(prev => [
               ...prev,
               item.answerOptionId[0] ?? item.answerOptionId,
             ]);
@@ -100,9 +105,12 @@ const QuestionnaireQuestion = (props: any) => {
   const submitQuestion = (body: any) => {
     setLoading(true);
     postRequest('/api/episodes/question-answer', body)
-      .then((data) => {
+      .then(data => {
         setLoading(false);
-        snackBarBottom('Question completed successfully', 'success', true);
+        showToast({
+          type: 'success',
+          text1: 'Question completed successfully',
+        });
         if (currentTask) {
           navigate('Home');
           loadTask();
@@ -111,7 +119,7 @@ const QuestionnaireQuestion = (props: any) => {
           loadTask(ids.milestoneId);
         }
       })
-      .catch((err) => setLoading(false));
+      .catch(err => setLoading(false));
   };
 
   const navigateToDependent = (
@@ -278,7 +286,7 @@ const QuestionnaireQuestion = (props: any) => {
         onSubmit({...localquestionUuid, taskMsg: ''}, localIndex, length);
       }
     } else if (localquestionUuid.taskTodo) {
-      const messages = filteredData.filter((item) => item.type === 'taskTodos');
+      const messages = filteredData.filter(item => item.type === 'taskTodos');
       if (+auth.userData.data.id === +messages[0]?.assignedTo) {
         navigateToDependent(
           messages,
@@ -327,9 +335,9 @@ const QuestionnaireQuestion = (props: any) => {
   };
 
   const handleCheckBoxClick = (val: any) => {
-    let list = checkedList.filter((item) => item);
+    let list = checkedList.filter(item => item);
     list = list.includes(val.value)
-      ? [...list.filter((value) => value !== val.value)]
+      ? [...list.filter(value => value !== val.value)]
       : [...list, val.value];
     setCheckedList(list);
     checkForOptions(
@@ -423,15 +431,14 @@ const QuestionnaireQuestion = (props: any) => {
                         taskType: 'questionnaire',
                         questionId: question.id,
                       })
-                  : snackBarBottom(
-                      `${
+                  : showToast({
+                      type: 'error',
+                      text1: `${
                         type === 'input'
                           ? 'Please fill the input box'
                           : 'Please select an option'
                       }`,
-                      'error',
-                      true,
-                    );
+                    });
               }}
               spinner={props.loading ?? loading}
             />

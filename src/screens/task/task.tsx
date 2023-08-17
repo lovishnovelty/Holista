@@ -11,7 +11,7 @@ import {
   Wrapper,
 } from '../../common/ui';
 import {usePost} from '../../hooks';
-import {snackBarBottom, goBack} from '../../utils';
+import {goBack, showToast} from '../../utils';
 import {useDispatch} from 'react-redux';
 import {setDocIndex} from '../../redux/data/data-action';
 
@@ -71,7 +71,10 @@ const Task = (props: any) => {
           // goBack();
         }
       } catch (error) {
-        snackBarBottom(error, 'error', true);
+        showToast({
+          type: 'error',
+          text1: 'Something went wrong',
+        });
       }
     }
   };
@@ -100,10 +103,16 @@ const Task = (props: any) => {
             props.route.params.loadTask(milestoneId);
           dispatch({type: 'FETCH'});
         }
-        snackBarBottom(TASK_UPDATE_MESSAGE, 'success', true);
+        showToast({
+          type: 'success',
+          text1: TASK_UPDATE_MESSAGE,
+        });
         goBack();
       } catch (error) {
-        snackBarBottom(error, 'error', true);
+        showToast({
+          type: 'error',
+          text1: '',
+        });
       }
     }
   };
