@@ -54,6 +54,7 @@ const Login = () => {
     };
     checkDisclaimer();
   }, []);
+
   useEffect(() => {
     async function isBiometricSetup() {
       try {
