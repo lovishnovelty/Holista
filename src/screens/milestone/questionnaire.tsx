@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 import {commonStyle, questionnaireStyle as qs} from '../../assets';
 import {GoBack, NavHeader, RegularText, Wrapper} from '../../common/ui';
 import {postRequest} from '../../services/request';
-import {navigate, snackBarBottom} from '../../utils';
+import {navigate, showToast} from '../../utils';
 import {checkForDependent, checkForOptions} from '../../utils/milestone-utils';
 import {Task} from '../task/task';
 import {MessagePage} from './messagePage';
@@ -12,15 +12,8 @@ import Progress from './progress';
 import {QuestionnaireQuestion} from './questionnaireQuestion';
 
 const Questionnaire = (props: any) => {
-  const {
-    loadTask,
-    ids,
-    question,
-    itemData,
-    currentTask,
-    body,
-    onBackClick,
-  } = props.route.params;
+  const {loadTask, ids, question, itemData, currentTask, body, onBackClick} =
+    props.route.params;
   const [index, setIndex] = useState(0);
 
   const [uuid, setUuid] = useState([
@@ -49,7 +42,10 @@ const Questionnaire = (props: any) => {
       };
       setLoading(true);
       await postRequest('/api/episodes/question-answer', submitBody);
-      snackBarBottom('Questionnaire completed successfully', 'success', true);
+      showToast({
+        type: 'success',
+        text1: 'Questionnaire completed successfully',
+      });
       if (currentTask) {
         navigate('Home');
         loadTask();
@@ -122,7 +118,7 @@ const Questionnaire = (props: any) => {
             buttonTitle={index + 1 === questions.length ? 'Submit' : 'Next'}
             onNext={(answer: any) => {
               const options = answer?.answerOptionId.filter(
-                (item) => item !== undefined,
+                item => item !== undefined,
               );
               const quesCopy = [...questions];
               quesCopy[index]?.question &&
@@ -143,7 +139,7 @@ const Questionnaire = (props: any) => {
                   setUuid,
                   (hasDependent: boolean) => {
                     if (hasDependent || index + 1 != questions.length) {
-                      setIndex((prev) => prev + 1);
+                      setIndex(prev => prev + 1);
                     } else {
                       onSubmit(ansCopy);
                     }
@@ -161,7 +157,7 @@ const Questionnaire = (props: any) => {
                   setUuid,
                   (hasDependent: boolean) => {
                     if (hasDependent) {
-                      setIndex((prev) => prev + 1);
+                      setIndex(prev => prev + 1);
                     } else {
                       onSubmit(ansCopy);
                     }
@@ -180,7 +176,7 @@ const Questionnaire = (props: any) => {
                     if (index + 1 == questions.length) {
                       onSubmit(answers);
                     } else {
-                      setIndex((prev) => prev + 1),
+                      setIndex(prev => prev + 1),
                         checkForDependent(
                           questions,
                           uuid,
@@ -211,7 +207,7 @@ const Questionnaire = (props: any) => {
                     if (index + 1 == questions.length) {
                       onSubmit(answers);
                     } else {
-                      setIndex((prev) => prev + 1),
+                      setIndex(prev => prev + 1),
                         checkForDependent(
                           questions,
                           uuid,

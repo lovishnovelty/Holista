@@ -50,7 +50,6 @@ const Login = () => {
   useEffect(() => {
     const checkDisclaimer = async () => {
       const isDisclaimerViewed = await getLocalData('isDisclaimerViewed');
-      console.log(isDisclaimerViewed, 'isDisclaimerViewed');
     };
     checkDisclaimer();
   }, []);
@@ -97,7 +96,6 @@ const Login = () => {
       const getTokenUrl = `/api/user/firebase-tokens/${id}`;
       const url = '/api/user/firebase-token';
       const tokenList: any = await getRequest(getTokenUrl);
-      console.log(tokenList, '----tokenList----');
 
       if (tokenList?.tokens.includes(token)) {
         return;
@@ -107,7 +105,6 @@ const Login = () => {
           deviceId,
           token,
         };
-        console.log(body, '---body----');
 
         const authStatus = await messaging().requestPermission();
         const enabled =
@@ -115,7 +112,6 @@ const Login = () => {
           authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
         const res = await patchRequest(url, body);
-        console.log(res, '----/api/user/firebase-token-----');
       }
     } catch (error) {}
   };

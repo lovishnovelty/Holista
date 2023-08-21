@@ -13,10 +13,10 @@ export const CometchatInit = () => {
       .build();
     CometChat.init(keys.APP_ID, appSetting)
       .then(() => {
-        console.log('Initialization completed successfully');
+        console.log('Initialization completed successfully.....');
         CometChatLogin();
       })
-      .catch((error) => {
+      .catch(error => {
         console.log('Initialization failed with error:', error);
       });
   }
@@ -25,23 +25,23 @@ export const CometchatInit = () => {
 
 export const CometChatLogin = () => {
   CometChat.getLoggedinUser()
-    .then(async (user) => {
+    .then(async user => {
       if (!user) {
         const loggedInUser: any = await getLocalData('user');
         const loginUser: any = JSON.parse(loggedInUser);
         if (loginUser && loginUser.data) {
           CometChat.login(loginUser.data.id, keys.AUTH_KEY).then(
-            async (User) => {
+            async User => {
               console.log('Login Successful:', {User});
             },
-            async (error) => {
+            async error => {
               console.log('Cometchat login error', error);
             },
           );
         }
       }
     })
-    .catch((e) => console.log('Error while getting logged In', e));
+    .catch(e => console.log('Error while getting logged In', e));
 };
 
 export const CometChatConnectListener = () => {
@@ -65,7 +65,7 @@ export const CometChatLogout = () => {
   CometChat.logout().then(
     () => {},
     //Logout completed successfully
-    (error) => {
+    error => {
       //Logout failed with exception
       console.log('Logout failed with exception:', {error});
     },

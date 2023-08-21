@@ -11,7 +11,7 @@ import {
   normalize,
   removeLocalData,
   setToken,
-  snackBarBottom,
+  showToast,
   storeLocalData,
 } from '../../utils';
 import {confirmationStyle} from '../../assets';
@@ -45,24 +45,29 @@ const Confirmation = ({route: {params}}: {route: {params: any}}) => {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => response.json())
-      .then(async (data) => {
+      .then(response => response.json())
+      .then(async data => {
         if (data.message) {
           data.message === 'Password has already been used previously.'
-            ? setApiError((prevstate) => ({...prevstate, past: true}))
-            : snackBarBottom(data.message, 'error', true);
+            ? setApiError(prevstate => ({...prevstate, past: true}))
+            : showToast({
+                type: 'error',
+                text1: data?.message,
+              });
         } else if (data.data.message) {
           data.data.message === 'Contains personal info'
-            ? setApiError((prevstate) => ({...prevstate, personal: true}))
+            ? setApiError(prevstate => ({...prevstate, personal: true}))
             : data.data.message === 'Password combination contains banned word.'
-            ? setApiError((prevstate) => ({...prevstate, global: true}))
-            : snackBarBottom(data.data.message, 'error', true);
+            ? setApiError(prevstate => ({...prevstate, global: true}))
+            : showToast({
+                type: 'error',
+                text1: data?.data?.message,
+              });
         } else if (data.data) {
-          snackBarBottom(
-            'Successfully set the password, Logging in.',
-            'success',
-            true,
-          );
+          showToast({
+            type: 'success',
+            text1: 'Successfully set the password, Logging in.',
+          });
           const url = '/api/auth/login';
           const body = {
             password: postbody.password,

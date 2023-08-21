@@ -21,13 +21,13 @@ import {
   createSecureKeys,
   biometricPrompt,
   storeLocalData,
-  snackBarBottom,
   isBiometricAvailable,
   normalize,
   navigate,
   transformCurrentTask,
   ROUTES,
   getBlockNavigation,
+  showToast,
 } from '../../utils';
 import {color, dashboardStyle as ds, theme, app_theme} from '../../assets';
 import {useFetch} from '../../hooks';
@@ -69,11 +69,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const checkDisclaimed = async () => {
       const isviewedd = !!(await getLocalData('isDisclaimerViewed'));
-      console.log(
-        isviewedd,
-        'issss???????',
-        await getLocalData('isDisclaimerViewed'),
-      );
+
       if (!isviewedd) {
         dispatch({
           type: 'LOAD_DISCLAIMER',
@@ -144,7 +140,10 @@ const HomeScreen = () => {
           type: 'BIOMETRIC',
           payload: {biometric: false},
         });
-        snackBarBottom('Biometric setup successful', 'success', true);
+        showToast({
+          type: 'success',
+          text1: 'Biometric setup successful',
+        });
       }
     } catch (e) {
       console.log('Error while setting up biometric login', e);

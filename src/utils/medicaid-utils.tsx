@@ -2,7 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ActivityIndicator} from 'react-native';
 import {WModal, WSnackBar} from 'react-native-smart-tip';
 import React from 'react';
+import Toast from 'react-native-toast-message';
 import moment from 'moment';
+import {hasDynamicIsland, hasNotch} from 'react-native-device-info';
+
 import {color, app_theme} from '../assets/theme';
 import IdCard from '../assets/images/svg/id-card.svg';
 import Milestone from '../assets/images/svg/mission.svg';
@@ -47,6 +50,7 @@ export const snackBarBottom = (
   callback?: () => any,
 ) => {
   const snackBarDown = {
+    isShowShadow: true,
     numberOfLines: 5,
     statusBarHeight: normalize(20),
     height: normalize(35),
@@ -64,6 +68,23 @@ export const snackBarBottom = (
   if (callback) {
     callback();
   }
+};
+
+export const showToast = ({
+  type = 'success',
+  text1,
+  text2,
+}: {
+  type?: string;
+  text1: string;
+  text2?: string;
+}) => {
+  return Toast.show({
+    topOffset: hasDynamicIsland() ? 55 : hasNotch() ? 40 : 2,
+    type: type,
+    text1: text1,
+    text2: text2,
+  });
 };
 
 export const checkEmpty = (obj: Object) => {

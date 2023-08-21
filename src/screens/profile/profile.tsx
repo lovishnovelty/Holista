@@ -28,7 +28,6 @@ const Profile = () => {
   });
   const user = useSelector((state: any) => state.auth.userData);
   const {state: authState, dispatch: authDispatch} = useContext(AuthContext);
-  console.log(authState, 'authState');
 
   const dispatch = useDispatch();
 
@@ -48,7 +47,6 @@ const Profile = () => {
     try {
       const url = `/api/purchasers/${user.data.referenceCode}`;
       const {data} = await api.get(url);
-      console.log(data, 'progileee', state);
 
       setState({
         companyInfo: data.data,
@@ -57,8 +55,6 @@ const Profile = () => {
     } catch (error) {}
   };
   const onPress = async (val: boolean) => {
-    console.log(val, 'vallll');
-
     // if (val) {
     //   await storeLocalData('disclaimer', 'true');
     // }

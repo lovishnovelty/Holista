@@ -12,7 +12,7 @@ import {
 } from '../../common/ui';
 import Textarea from 'react-native-textarea';
 import {postRequest} from '../../services/request';
-import {goBack, navigate, normalize, ROUTES, snackBarBottom} from '../../utils';
+import {goBack, navigate, normalize, ROUTES, showToast} from '../../utils';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import {useAsyncState} from '../../hooks';
@@ -33,8 +33,13 @@ const Question = (props: any) => {
   const [questionList, setQuestionList] = useAsyncState([]);
   const [index, setIndex] = useAsyncState(0);
   const [loading, setLoading] = useState(false);
-  const {loadTask, ids, question: ques, currentTask, itemData} =
-    props.question ?? props.route.params;
+  const {
+    loadTask,
+    ids,
+    question: ques,
+    currentTask,
+    itemData,
+  } = props.question ?? props.route.params;
 
   const [inputText, setInputText] = useState(null);
   const [question, setQuestion] = useState(ques);
@@ -52,7 +57,7 @@ const Question = (props: any) => {
   let body: any;
   // const questionData = useSelector((state: any) => state.data.globalQues);
   const initialQues = itemData?.filter(
-    (item) => item.questions?.id === ques.id ?? false,
+    item => item.questions?.id === ques.id ?? false,
   );
   useEffect(() => {
     setActiveQuestion({
@@ -84,7 +89,7 @@ const Question = (props: any) => {
       questionList[index] &&
       questionList[index]?.type == 'taskQuestions'
     ) {
-      const questionAns = answers.find((x) => {
+      const questionAns = answers.find(x => {
         return x.questionId == questionList[index]?.questions.id;
       });
       const checkedList = questionAns ? questionAns.answerOptionId : [];
@@ -117,13 +122,13 @@ const Question = (props: any) => {
     question?.questionTypes?.code === 'TEXTFIELD'
       ? setType('input')
       : setType('choice');
-    question?.ansOpt?.map((item) => {
+    question?.ansOpt?.map(item => {
       if (item.answer?.length > 0) {
         setInputText(item.answer);
       } else {
         question?.questionTypes?.code === 'RADIO'
           ? setSelected(item.answerOptionId[0] ?? item.answerOptionId)
-          : setCheckedList((prev) => [
+          : setCheckedList(prev => [
               ...prev,
               item.answerOptionId[0] ?? item.answerOptionId,
             ]);
@@ -262,9 +267,12 @@ const Question = (props: any) => {
   const submitQuestion = (body: any) => {
     setLoading(true);
     postRequest('/api/episodes/question-answer', body)
-      .then((data) => {
+      .then(data => {
         setLoading(false);
-        snackBarBottom('Question completed successfully', 'success', true);
+        showToast({
+          type: 'success',
+          text1: 'Question completed successfully',
+        });
         if (currentTask) {
           navigate('Home');
           loadTask();
@@ -273,7 +281,7 @@ const Question = (props: any) => {
           loadTask(ids.milestoneId);
         }
       })
-      .catch((err) => setLoading(false));
+      .catch(err => setLoading(false));
   };
 
   const getDependentQuestion = (dependentTaksId: any) => {
@@ -343,7 +351,7 @@ const Question = (props: any) => {
   };
 
   const removeDuplicateQuestions = (questionToRemove: any[]) => {
-    const removeQuestionIds = questionToRemove.map((x) => x.id);
+    const removeQuestionIds = questionToRemove.map(x => x.id);
     const newQuestions = questionList.filter((x: any) => {
       return !removeQuestionIds.includes(x.id);
     });
@@ -390,10 +398,10 @@ const Question = (props: any) => {
   };
 
   const handleCheckBoxClick = (val: any) => {
-    let list = checkedList.filter((item) => item);
+    let list = checkedList.filter(item => item);
     list = list.includes(val.value)
       ? [
-          ...list.filter((value) => {
+          ...list.filter(value => {
             return value !== val.value;
           }),
         ]
@@ -489,15 +497,14 @@ const Question = (props: any) => {
                             onSubmit(uuid, index, questionUuid.length);
                           })
                         : setIndex(index + 1)
-                      : snackBarBottom(
-                          `${
+                      : showToast({
+                          type: 'error',
+                          text1: `${
                             type === 'input'
                               ? 'Please fill the input box'
                               : 'Please select an option'
                           }`,
-                          'error',
-                          true,
-                        );
+                        });
                   }}
                   spinner={loading ?? loading}
                 />

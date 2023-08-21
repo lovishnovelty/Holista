@@ -18,13 +18,13 @@ import {
 import {milestoneStyle as ms, color, commonStyle} from '../../assets';
 import {
   normalize,
-  snackBarBottom,
   transformMilestone,
   navigate,
   formatResult,
   GLOBALSTATUS,
   ROUTES,
   getColor,
+  showToast,
 } from '../../utils';
 import {useFetch, useAsyncState} from '../../hooks';
 import ArrowUp from '../../assets/images/svg/arrowUp.svg';
@@ -205,16 +205,19 @@ const Milestone = () => {
             itemId: attribute.itemId ? null : id,
           });
         } else {
-          snackBarBottom(
-            'Please wait for your milestone to start',
-            'info',
-            true,
-          );
+          showToast({
+            type: 'success',
+            text1: 'Please wait for your milestone to start',
+          });
+
           setState({tasks: [], loading: false});
         }
       }
     } catch (error) {
-      snackBarBottom('Please wait for your milestone to start', 'info', true);
+      showToast({
+        type: 'success',
+        text1: 'Please wait for your milestone to start',
+      });
       setState({tasks: [], loading: false});
     }
   };
