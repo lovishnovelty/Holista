@@ -69,11 +69,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const checkDisclaimed = async () => {
       const isviewedd = !!(await getLocalData('isDisclaimerViewed'));
-      console.log(
-        isviewedd,
-        'issss???????',
-        await getLocalData('isDisclaimerViewed'),
-      );
+
       if (!isviewedd) {
         dispatch({
           type: 'LOAD_DISCLAIMER',

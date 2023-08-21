@@ -76,14 +76,10 @@ const MessageScreen = () => {
 
   const startCall = (isAudio?: boolean) => {
     const user = state.userList.find((x: any) => +x.uid === +receiverID);
-    console.log(isAudio, 'auido', user, 'receiverID', receiverID);
     if (user?.status === 'online') {
-      console.log('onile');
-
       setIsAudio(isAudio ? true : false);
       initiateCall(receiverID, isAudio ? 'AUDIO' : 'VIDEO').then(
         (outGoingCall: any) => {
-          console.log(outGoingCall, 'outGoingCall');
           setSessionId(outGoingCall.getSessionId());
           setCallType('outgoing');
           setCall(outGoingCall);

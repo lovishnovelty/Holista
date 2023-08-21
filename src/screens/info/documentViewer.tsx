@@ -17,7 +17,6 @@ const DocumentViewer = () => {
 
   useEffect(() => {
     if (uri !== '') {
-      console.log(uri, 'uroiiii');
       const date = new Date();
 
       const uniqueString = Math.floor(date.getTime() + date.getSeconds() / 2);

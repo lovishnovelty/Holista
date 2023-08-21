@@ -12,6 +12,9 @@ const milestoneStyle = StyleSheet.create({
   container: {
     marginTop: normalize(theme.size.xxs),
   },
+  searchContainer: {
+    marginTop: normalize(theme.size.sm),
+  },
   search: {
     marginHorizontal: normalize(theme.size.lg),
   },
