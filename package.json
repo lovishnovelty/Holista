@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "release:apk": "cd android && ./gradlew assembleRelease"
+    "release:apk": "cd android && ./gradlew assembleRelease",
+    "release": "cd android && ./gradlew bundleRelease"
 
   },
   "dependencies": {
