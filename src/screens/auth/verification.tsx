@@ -9,7 +9,7 @@ import {
   Button,
   FooterText,
 } from '../../common/ui';
-import {navigate, normalize, snackBarBottom} from '../../utils';
+import {navigate, normalize, showToast} from '../../utils';
 import {verificationSchema} from '../../utils/validation';
 import {FormInterface} from '../../interface';
 import {FormComponent, OTPComponent} from '../../components';
@@ -27,29 +27,37 @@ const Verification = (props: any) => {
     if (values.action === 'resend') {
       const url = `/api/users/resend-otp/${values.phone}`;
       getRequest(url)
-        .then((data) => {
+        .then(data => {
           if (data.success === true) {
-            snackBarBottom(data.data.message, 'success', true);
+            showToast({
+              type: 'success',
+              text1: data?.data?.message || '',
+            });
           } else if (data.success === false) {
-            snackBarBottom('Unable to send OTP.', 'error', true);
+            showToast({
+              type: 'error',
+              text1: 'Unable to send OTP.',
+            });
           }
           Keyboard.dismiss();
           setSendPressed(true);
         })
-        .catch((err) => {
+        .catch(err => {
           setSendPressed(false);
-          snackBarBottom(
-            err.response?.data?.message ?? 'Unable to send OTP.',
-            'error',
-            true,
-          );
+          showToast({
+            type: 'error',
+            text1: err?.response?.data?.message ?? 'Unable to send OTP.',
+          });
         });
     } else {
       setLoading(true);
       const url = '/api/users/verify-otp';
-      doRequest(url, values, (data) => {
+      doRequest(url, values, data => {
         if (!data.success) {
-          snackBarBottom('Unable to send OTP.', 'error', true);
+          showToast({
+            type: 'error',
+            text1: 'Unable to send OTP.',
+          });
           return;
         }
         setSendPressed(true);
@@ -60,12 +68,18 @@ const Verification = (props: any) => {
   };
 
   useEffect(() => {
-    if (result && result.message === 'OTP code verified.') {
-      snackBarBottom(result.message, 'success', true);
+    if (result && result?.message === 'OTP code verified.') {
+      showToast({
+        type: 'success',
+        text1: result?.message,
+      });
       setLoading(false);
       navigate('Confirmation', {phone: phone});
     } else if (result && result.message) {
-      snackBarBottom(result.message, 'error', true);
+      showToast({
+        type: 'error',
+        text1: result?.message,
+      });
       setLoading(false);
       Keyboard.dismiss();
     }

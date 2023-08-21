@@ -16,8 +16,6 @@ const getRequest = async (path: string, headers?: any) => {
       const response = await api.get(path, {headers});
       resolve(response.data);
     } catch (err) {
-      console.log(err, '---geterrr---');
-
       reject(err);
     }
   });
@@ -29,8 +27,6 @@ const patchRequest = async (path: string, headers?: any) => {
       const response = await api.patch(path, {headers});
       resolve(response.data);
     } catch (err) {
-      console.log(err, 'err');
-
       reject(err);
     }
   });

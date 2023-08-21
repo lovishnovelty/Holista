@@ -45,8 +45,6 @@ const conversation = () => {
     try {
       conversationsRequest.fetchNext().then(
         conversationList => {
-          console.log(conversationList, 'conversationList');
-
           setConversationList(conversationList);
           setLoading(false);
         },
@@ -72,7 +70,6 @@ const conversation = () => {
 const getMessagesByUid = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [messageList, setMessageList] = useState<any>([]);
-  console.log(messageList, 'mesageList');
 
   const getList = (uid: string) => {
     try {
@@ -137,7 +134,9 @@ const listenForCall = (
 };
 
 const cancelInitiatedCall = (sessionId: string) => {
-  return CometChat.cancelCall(sessionId);
+  console.log(sessionId);
+
+  // return CometChat.cancelCall(sessionId);
 };
 
 const acceptIncomingCall = (sessionId: string) => {
