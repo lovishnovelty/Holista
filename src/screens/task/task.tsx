@@ -65,10 +65,11 @@ const Task = (props: any) => {
       try {
         const result = await doRequest(url, body);
         if (result) {
-          props.route.params.loadTask(props.route.params.ids.milestoneId);
+          await props.route.params.loadTask(props.route.params.ids.milestoneId);
           dispatch({type: 'FETCH'});
+
           // snackBarBottom(TASK_UPDATE_MESSAGE, 'success', true);
-          // goBack();
+          goBack();
         }
       } catch (error) {
         showToast({

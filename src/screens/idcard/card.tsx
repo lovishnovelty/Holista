@@ -1,8 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {View, Image, TouchableOpacity, Linking, Text} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Linking,
+  Text,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
+import RNFS from 'react-native-fs';
 import {cardStyle, theme} from '../../assets';
 import {IdCardPlaceHolder, NoData, RegularText} from '../../common/ui';
-import {checkEmpty, normalize} from '../../utils';
+import {checkEmpty, normalize, showToast} from '../../utils';
+import ViewShot from 'react-native-view-shot';
 import {
   dialCall,
   formatPhoneNumber,
@@ -11,11 +21,70 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {getRequest} from '../../services/request';
 
-const Card = () => {
+const Card = ({
+  isDownload,
+  setIsDownload,
+}: // setLoading,
+{
+  isDownload: boolean;
+  setIsDownload: React.Dispatch<React.SetStateAction<boolean>>;
+  // setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [finalData, setfinalData] = useState<any>(null);
+  const [state, setState] = useState<any>(null);
   const user = useSelector((state: any) => state.auth.userData);
   const idData = useSelector((state: any) => state.data.idcard);
   const dispatch = useDispatch();
+
+  const ref = useRef();
+  const onDownload = useCallback(async uri => {
+    setState(uri);
+    // downloadImage(uri);
+  }, []);
+  useEffect(() => {
+    if (isDownload) {
+      downloadImage(state);
+    }
+  }, [state, isDownload]);
+  const downloadImage = async uri => {
+    // setLoading(true);
+    setIsDownload(false);
+
+    try {
+      const date = new Date();
+      const uniqueString = Math.floor(date.getTime() + date.getSeconds() / 2);
+      const directoryPaths =
+        Platform.OS === 'android'
+          ? RNFS.DownloadDirectoryPath
+          : RNFS.DocumentDirectoryPath;
+      const destinationPath = `${directoryPaths}/capturedImage-${uniqueString}.png`;
+      const sourcePath = encodeURI(uri); // Use the captured image URI
+      if (Platform.OS === 'ios') {
+        const options = {
+          fromUrl: encodeURI(uri),
+          toFile: destinationPath,
+        };
+        await RNFS.mkdir(directoryPaths);
+      }
+      try {
+        await RNFS.copyFile(sourcePath, destinationPath);
+        // setLoading(false);
+        showToast({type: 'success', text1: 'Download completed'});
+      } catch (error) {
+        showToast({
+          type: 'error',
+          text1: 'Something went wrong, please try again',
+        });
+        // setLoading(false);
+      }
+    } catch (error) {
+      // setLoading(false);
+      showToast({
+        type: 'error',
+        text1: 'Something went wrong, please try again',
+      });
+    }
+  };
 
   const getData = async () => {
     if (user.data.memberUuid) {
@@ -41,7 +110,7 @@ const Card = () => {
   }, []);
 
   return (
-    <>
+    <ViewShot onCapture={onDownload} ref={ref} captureMode="mount">
       {finalData &&
         finalData.episodeDetail &&
         finalData.episodeDetail.length && (
@@ -319,7 +388,7 @@ const Card = () => {
           <NoData title="ID Card" icon="card-account-details" />
         </View>
       )}
-    </>
+    </ViewShot>
   );
 };
 export default Card;

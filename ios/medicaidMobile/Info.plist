@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<!-- <key>NSPhotoLibraryAddUsageDescription</key>
+<string>Your app needs permission to save photos to your device.</string>
+<key>NSFilesUsageDescription</key>
+<string>We need access to your files to save images.</string>
+<key>NSFaceIDUsageDescription</key>
+	<string>App needs access to Face ID for verification</string> -->
 <key>NSMicrophoneUsageDescription</key>
 <string>We need access to your microphone to enable voice chat in our app, allowing you to communicate with other users during calls and meetings.</string>
 	<key>CFBundleDevelopmentRegion</key>

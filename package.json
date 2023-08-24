@@ -10,7 +10,6 @@
     "test": "jest",
     "release:apk": "cd android && ./gradlew assembleRelease",
     "release": "cd android && ./gradlew bundleRelease"
-
   },
   "dependencies": {
     "@cometchat-pro/react-native-chat": "^2.4.0",
@@ -68,6 +67,7 @@
     "react-native-toast-message": "^2.1.6",
     "react-native-vector-icons": "^10.0.0",
     "react-native-version-check": "^3.4.2",
+    "react-native-view-shot": "^3.7.0",
     "react-redux": "^7.2.2",
     "reactotron-react-native": "^5.0.0",
     "redux": "^4.0.5",
