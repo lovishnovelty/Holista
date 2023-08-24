@@ -78,8 +78,8 @@ android {
         applicationId "com.novelty.medicaid"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 37
-        versionName "0.1.17"
+        versionCode 38
+        versionName "0.1.18"
     }
     signingConfigs {
         debug {

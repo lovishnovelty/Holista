@@ -12,6 +12,7 @@ import {
 import BottomTabNavigator from './bottomTabBar';
 import * as screen from '../screens';
 import {AuthContext} from '../context';
+import {CustomWebView} from '../common/ui/webView';
 
 const stack = () => {
   const dispatch = useDispatch();
@@ -131,6 +132,7 @@ const stack = () => {
             component={screen.MessagePage}
             options={{gestureEnabled: false, headerShown: false}}
           />
+          <Stack.Screen name="webView" component={CustomWebView} />
         </>
       )}
     </Stack.Navigator>
