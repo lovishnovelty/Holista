@@ -37,8 +37,9 @@ const desclamierStyle = StyleSheet.create({
     flexDirection: 'column',
   },
   text: {
-    textAlign: 'left',
+    textAlign: 'justify',
     lineHeight: normalize(20),
+    marginBottom: normalize(10),
   },
   checkBox: {
     flexDirection: 'row',

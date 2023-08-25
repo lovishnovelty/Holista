@@ -43,9 +43,7 @@ const PdfViewer = ({
           )}
           <Pdf
             trustAllCerts={false}
-            onError={error => {
-              console.log(error, 'errrrr');
-            }}
+            onError={error => {}}
             activityIndicator={<></>}
             source={{
               uri: uri,
